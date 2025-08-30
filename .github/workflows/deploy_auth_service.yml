@@ -1,0 +1,8 @@
+# name: Deploy Server A
+
+# on:
+#   push:
+#     branches:
+#       - main
+#     paths:
+#       - "server-a/**"
