@@ -1,6 +1,7 @@
 import express from 'express';
 import logger from '../../shared/logger.js';
 import AppError from '../../shared/error.js';
+import { statusCodes } from '../../shared/constants.js';
 
 class ErrorHandler {
   public async handleErrorMiddleware(
@@ -9,10 +10,9 @@ class ErrorHandler {
     res: express.Response,
     next: express.NextFunction
   ): Promise<void> {
-    const fullLogger = logger.child({ userId: 2 });
-    fullLogger.error(err, err.message);
+    logger.error(err);
 
-    res.status(500).json({
+    res.status(statusCodes.INTERNAL_SERVER_ERROR).json({
       success: false,
       message: 'Internal Server error'
     });
@@ -22,7 +22,7 @@ class ErrorHandler {
   }
 
   public handleError(err: Error) {
-    logger.error({ userId: 1 }, err.message);
+    logger.error(err);
   }
 
   public isTrustedError(error: Error) {

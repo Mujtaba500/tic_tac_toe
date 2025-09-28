@@ -8,6 +8,13 @@ import morgan from 'morgan';
 import { errorHandler } from './utils/middleware/error-handler.js';
 import logger from './shared/logger.js';
 import AppError from './shared/error.js';
+import allRoutes from './routes/routes.js';
+import {
+  authenticateDBConnection,
+  dbInstance
+} from './database/config/db.config.js';
+import { sendServerResponse } from './shared/helpers/index.js';
+import { statusCodes } from './shared/constants.js';
 
 const port = process.env.PORT;
 const prod = process.env.NODE_ENV === 'production';
@@ -23,24 +30,32 @@ app.use(morgan(prod ? 'combined' : 'dev'));
 app.get(
   '/',
   (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    res.json({
-      message: 'API live'
-    });
+    try {
+      return sendServerResponse(true, statusCodes.OK, res, 'API live');
+    } catch (error) {
+      next(error);
+    }
   }
 );
 
-app.get('/health', (req, res, next) => {
-  // db authenticate
+app.get('/health', async (req, res, next) => {
   try {
-    throw new AppError(new Error('Error'), 'Health check failed', true);
+    await authenticateDBConnection();
+    return sendServerResponse(
+      true,
+      statusCodes.OK,
+      res,
+      'Server is up and running'
+    );
   } catch (error: any) {
-    next(error);
+    next(new AppError(error, 'Health check failed: ', true));
   }
 });
 
 /*
-  All Routes
+All Routes
 */
+app.use('/api/v1', allRoutes);
 
 app.use(errorHandler.handleErrorMiddleware);
 
@@ -48,11 +63,16 @@ process.on('unhandledRejection', (reason) => {
   throw reason;
 });
 
-process.on('uncaughtException', (error: Error) => {
+process.on('uncaughtException', async (error: Error) => {
   errorHandler.handleError(error);
   if (!errorHandler.isTrustedError(error)) {
     logger.fatal('Server shutting down');
-    process.exit(1);
+    logger.flush();
+    await dbInstance.close();
+
+    setImmediate(() => {
+      process.exit(1);
+    });
   }
 });
 
@@ -64,24 +84,34 @@ const server: http.Server = http.createServer(app);
 
 process.on('SIGTERM', () => {
   logger.info('SIGTERM signal received.');
-  server.close(() => {
+
+  server.close(async () => {
+    await dbInstance.close();
     logger.info('Closed out remaining connections');
     logger.fatal('Server shutting down');
-    // Additional cleanup tasks go here, e.g., close database connection
-    process.exit(0);
+    logger.flush();
+
+    setImmediate(() => {
+      process.exit(0);
+    });
   });
 });
 
 process.on('SIGINT', () => {
   logger.info('SIGINT signal received.');
-  server.close(() => {
+  server.close(async () => {
+    await dbInstance.close();
     logger.info('Closed out remaining connections');
-    // Additional cleanup tasks go here, e.g., close database connection
     logger.fatal('Server shutting down');
-    process.exit(0);
+    logger.flush();
+
+    setImmediate(() => {
+      process.exit(0);
+    });
   });
 });
 
+await authenticateDBConnection();
 server.listen(port, () => {
-  console.log(chalk.green('✓') + ' ' + `Server listening on port ${port}`);
+  logger.info(chalk.green('✓') + ' ' + `Server listening on port ${port}`);
 });

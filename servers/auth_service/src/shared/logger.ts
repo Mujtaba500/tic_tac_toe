@@ -16,19 +16,20 @@ const transport = pino.transport({
 
 const prod = process.env.NODE_ENV === 'production';
 
-const logger = pino(
-  {
-    transport: {
-      target: 'pino-pretty',
-      options: {
-        colorize: prod ? false : true, // enable colors
-        translateTime: 'SYS:standard', // human-readable timestamps
-        ignore: 'pid,hostname' // optional: cleaner logs
+const logger = prod
+  ? pino()
+  : pino(
+      {
+        transport: {
+          target: 'pino-pretty',
+          options: {
+            translateTime: 'SYS:standard', // human-readable timestamps
+            ignore: 'pid,hostname' // optional: cleaner logs
+          }
+        },
+        redact: ['password']
       }
-    },
-    redact: ['password']
-  }
-  //   transport
-);
+      //   transport
+    );
 
 export default logger;

@@ -6,10 +6,10 @@ class AppError extends Error {
   public readonly isOperational: boolean;
 
   constructor(error: Error, description: string, isOperational: boolean) {
-    super(description);
+    super(description + ' ' + error.message);
     this.isOperational = isOperational;
 
-    Error.captureStackTrace(this);
+    Error.captureStackTrace(this, this.constructor);
   }
 }
 
