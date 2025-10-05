@@ -9,10 +9,8 @@ import { errorHandler } from './utils/middleware/error-handler.js';
 import logger from './shared/logger.js';
 import AppError from './shared/error.js';
 import allRoutes from './routes/routes.js';
-import {
-  authenticateDBConnection,
-  dbInstance
-} from './database/config/db.config.js';
+import db from './database/models'
+import { authenticateDBConnection } from './database/config/db.config.js';
 import { sendServerResponse } from './shared/helpers/index.js';
 import { statusCodes } from './shared/constants.js';
 
@@ -68,7 +66,7 @@ process.on('uncaughtException', async (error: Error) => {
   if (!errorHandler.isTrustedError(error)) {
     logger.fatal('Server shutting down');
     logger.flush();
-    await dbInstance.close();
+    await db.sequelize.close();
 
     setImmediate(() => {
       process.exit(1);
@@ -86,7 +84,7 @@ process.on('SIGTERM', () => {
   logger.info('SIGTERM signal received.');
 
   server.close(async () => {
-    await dbInstance.close();
+    await db.sequelize.close();
     logger.info('Closed out remaining connections');
     logger.fatal('Server shutting down');
     logger.flush();
@@ -100,7 +98,7 @@ process.on('SIGTERM', () => {
 process.on('SIGINT', () => {
   logger.info('SIGINT signal received.');
   server.close(async () => {
-    await dbInstance.close();
+    await db.sequelize.close();
     logger.info('Closed out remaining connections');
     logger.fatal('Server shutting down');
     logger.flush();

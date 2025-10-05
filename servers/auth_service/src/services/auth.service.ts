@@ -29,7 +29,7 @@ export class AuthService extends HelperClass.helper {
 
       const jwtToken = await this.createJwtToken( { user_name , user_id: id } );
 
-      const dataToSend = { id, user_name , jwtToken};
+      const dataToSend = { id, user_name , jwt_token: jwtToken};
 
       return this.sendServerResponse(true, statusCodes.OK, res, 'Login Successful', dataToSend );
 
@@ -55,9 +55,39 @@ export class AuthService extends HelperClass.helper {
 
        const jwtToken = await this.createJwtToken( { user_name: username , user_id: newUser.id } );
 
-      const dataToSend = { id: newUser.id, user_name: newUser.user_name , jwtToken}
+      const dataToSend = { id: newUser.id, user_name: newUser.user_name , jwt_token: jwtToken}
 
       return this.sendServerResponse(true, statusCodes.OK, res, null, dataToSend );
+
+  }
+
+  public authenticateUser = async ( req: Request, res: Response ): Promise<RequestHandler> => {
+
+    let token = req.headers.authorization;
+
+    if ( !token ) {
+
+      return this.sendServerResponse(false, statusCodes.NOT_AUTHENTICATED, res, "Unauthorized" );
+
+    }
+
+    try {
+
+    token = token.replace("Bearer ", "");
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as ANY;
+
+    return this.sendServerResponse(true, statusCodes.OK, res, null, decoded );
+
+
+  } catch (err) {
+
+    console.log("Error while verifying token", err.message);
+
+    return this.sendServerResponse(false, statusCodes.NOT_AUTHENTICATED, res, "Unauthorized" );
+
+  }
+
 
   }
 
@@ -71,9 +101,11 @@ export class AuthService extends HelperClass.helper {
 
   private createJwtToken = async (data: ANY) => {
 
-    const { username , userId } = data;
+    const { user_name , user_id } = data;
 
-    const dataToSign = { username , userId };
+    const dataToSign = { user_name , user_id };
+
+    console.log(dataToSign)
 
     return jwt.sign( dataToSign, process.env.JWT_SECRET);
 

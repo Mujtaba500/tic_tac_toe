@@ -41,4 +41,22 @@ export class AuthController {
 
     }
   };
+
+  public verifyUser =  async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<RequestHandler> => {
+    try {
+
+      const response = await this.__service.authenticateUser(req, res);
+
+      return response;
+
+    } catch (error) {
+
+      next(new AppError(error, 'Verfication Failed: ', true));
+
+    }
+  };
 }
