@@ -84,3 +84,4 @@ migration changelogs.txt
 *.backup
 
 tempPdf/*
+config.json

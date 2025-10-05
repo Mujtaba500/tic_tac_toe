@@ -111,7 +111,7 @@ process.on('SIGINT', () => {
   });
 });
 
-await authenticateDBConnection();
-server.listen(port, () => {
+server.listen(port, async () => {
+  await authenticateDBConnection();
   logger.info(chalk.green('✓') + ' ' + `Server listening on port ${port}`);
 });

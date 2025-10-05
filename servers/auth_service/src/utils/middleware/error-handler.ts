@@ -10,7 +10,7 @@ class ErrorHandler {
     res: express.Response,
     next: express.NextFunction
   ): Promise<void> {
-    logger.error(err);
+    this.handleError(err);
 
     res.status(statusCodes.INTERNAL_SERVER_ERROR).json({
       success: false,

@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
-  "type": "module",
   "scripts": {
     "build": "tsc",
     "dev": "FORCE_COLOR=1 tsx watch src/app.ts",
@@ -24,6 +23,7 @@
     "@types/express": "^5.0.3",
     "@types/morgan": "^1.9.10",
     "@types/node": "^24.3.0",
+    "babel-register": "^6.26.0",
     "eslint": "^9.34.0",
     "globals": "^16.3.0",
     "jiti": "^2.5.1",
@@ -45,6 +45,7 @@
     "pino-pretty": "^13.1.1",
     "safe-regex": "^2.1.1",
     "sequelize": "^6.37.7",
+    "sequelize-cli": "^6.6.3",
     "sequelize-typescript": "^2.1.6"
   }
 }
