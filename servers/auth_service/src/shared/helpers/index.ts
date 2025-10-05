@@ -1,18 +1,30 @@
-import { statusCodes } from '../constants.js';
 import { ANY } from '../types/types.js';
 
 const sendServerResponse = (
-  success: Boolean,
+  success: boolean,
   statusCode: number,
   res: ANY,
   message?: string,
-  data?: ANY
+  data?: ANY,
+  errorMessage? : string
 ) => {
-  return res.status(statusCode).json({
-    success,
-    message,
-    data
-  });
+    const response: { success: boolean; message?: string; data?: ANY[], error? : string } = {
+      success
+    };
+
+    if (message) {
+      response.message = message;
+    }
+
+    if (data) {
+      response.data = data;
+    }
+
+    if (errorMessage) {
+      response.error = errorMessage;
+    }
+
+    return res.status(statusCode).json(response);
 };
 
 export { sendServerResponse };

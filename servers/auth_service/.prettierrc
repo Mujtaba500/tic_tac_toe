@@ -3,5 +3,8 @@
   "singleQuote": true,
   "tabWidth": 2,
   "printWidth": 80,
-  "trailingComma": "none"
+  "trailingComma": "none",
+  "rules": {
+    "no-multiple-empty-lines": ["error", { "max": 2, "maxEOF": 1, "maxBOF": 1 }]
+  }
 }

@@ -47,7 +47,7 @@ app.get('/health', async (req, res, next) => {
       res,
       'Server is up and running'
     );
-  } catch (error: any) {
+  } catch (error) {
     next(new AppError(error, 'Health check failed: ', true));
   }
 });

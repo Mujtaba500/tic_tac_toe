@@ -1,12 +1,10 @@
 import express from 'express';
+import { authController } from '../controllers';
 
 const authRouter = express.Router();
 
-authRouter.use('/login', (req, res) => {
-  console.log('yolo');
-  res.json({
-    message: 'yolo'
-  });
-});
+authRouter.post('/login', authController.login);
+
+authRouter.post('/signup', authController.createUser)
 
 export default authRouter;
