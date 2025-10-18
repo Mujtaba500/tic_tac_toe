@@ -1,0 +1,115 @@
+@import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
+:root {
+  /* font-family: system-ui, Avenir, Helvetica, Arial, sans-serif; */
+  /* line-height: 1.5;
+  font-weight: 400; */
+  font-family: 'Varela Round', sans-serif;
+  /* color-scheme: light dark; */
+  color: rgba(255, 255, 255, 0.87);
+  /* background-color: #242424; */
+  background-color: #c5c3c6;
+  color: #46494b;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+    --font-family: 'Varela Round', sans-serif;
+    --background-color: #c5c3c6;
+    --font-color: #46494b;
+    --header-background-color: #4c5c68;
+    --header-font-color: #b0e4db;
+    --field-background-color: #ededee;
+    --field-background-color-hover: #d8e4e9;
+    --button-border-color: #2a3a46;
+
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    font-family: var(--font-family);
+    background-color: var(--background-color);
+    color: var(--font-color);
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+
+ #header > h1 {
+    font-size: 60px;
+    margin: 0;
+    padding: 30px;
+    background-color: var(--header-background-color);
+    color: var(--header-font-color);
+}
+
+#main {
+    background-color: var(--background-color);
+}
+
+#heading{
+    font-size: 40px;
+    font-weight: 100;
+}
+
+#field {
+    display: grid;
+    grid-template-columns: repeat(3, 150px);
+    grid-template-rows: repeat(3, 150px);
+    justify-content: center;
+    border: 2px solid black;
+    width: 450px;
+    margin: auto;
+
+}
+
+#field > div {
+    background-color: var(--field-background-color);
+    border: 1px solid black;
+    font-size: 110px;
+    text-align: center;
+    margin: 0;
+}
+
+#field > div > div > p {
+    margin: 10px;
+}
+
+#field > div:hover {
+    background-color: var(--field-background-color-hover);
+    cursor: pointer;
+}
+
+#restart-btn {
+    padding: 12px 20px;
+    margin: 30px;
+    width: 200px;
+    outline: none;
+    font-size: 40px;
+    font-family: inherit;
+    color: var(--header-font-color);
+    background-color: var(--header-background-color);
+    border: 3px solid var(--button-border-color);
+    border-radius: 6px;
+}
+
+#restart-btn:hover {
+  background-color: #3b4b57;
+  cursor: pointer;
+}
+
+
+#footer {
+    padding: 20px;
+}
+
+#footer > p {
+    font-size: 20px;
+    margin: 0;
+}
