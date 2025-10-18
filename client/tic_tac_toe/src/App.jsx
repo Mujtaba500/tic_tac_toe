@@ -1,5 +1,5 @@
-import './App.css'
 import { Route, Routes, Navigate } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
 import SignupPage from './pages/SignupPage';
@@ -17,6 +17,7 @@ function App() {
       <Route path="/game" element={<GamePage />}/>
       <Route path="/profile" element={<ProfilePage />}/>
     </Routes>
+      <Toaster />
     </>
   )
 }
