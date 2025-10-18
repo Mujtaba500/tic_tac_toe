@@ -2,19 +2,24 @@
 import { useState } from "react"
 import { Link, Navigate, useNavigate } from "react-router-dom"
 import authService from "../services/authService";
+// import loaderService from "../services/loaderService";
 
 const LoginPage = () => {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [loader, setLoader] = useState(false)
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+        setLoader(true)
         const res = await authService.login(username, password)
-        res?.success && navigate('/')
+        setLoader(false)
         setPassword('')
         setUsername('')
+        res?.success && navigate('/')
+
     }
 
     return (
@@ -62,10 +67,12 @@ const LoginPage = () => {
 
             <button
               type="submit"
-              className="w-full bg-slate-800 
-              text-white py-3 rounded-lg hover:bg-slate-700 transition-colors font-medium shadow-lg hover:shadow-xl
+              className={loader ? `w-full bg-slate-400 
+              text-white py-3 rounded-l transition-colors font-medium shadow-lg hover:shadow-xl
+              cursor-pointer` : `w-full bg-slate-800 
+              text-white py-3 rounded-lg hover:bg-slate-400 transition-colors font-medium shadow-lg hover:shadow-xl
               cursor-pointer
-              "
+              `  } disabled = {loader ? true : false}
             >
               Sign In
             </button>

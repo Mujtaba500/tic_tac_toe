@@ -1,15 +1,22 @@
 import { useState } from "react"
-import { Link, Navigate } from "react-router-dom"
+import { Link, Navigate, useNavigate } from "react-router-dom"
 import authService from "../services/authService";
 
 const SignupPage = () => {
 
         const [username, setUsername] = useState('');
         const [password, setPassword] = useState('');
+        const [loader, setLoader] = useState(false)
+        const navigate = useNavigate();
 
-         const handleSubmit = (e) => {
+         const handleSubmit = async (e) => {
                 e.preventDefault()
-                authService.register(username, password)
+                setLoader(true)
+              const res = await authService.register(username, password)
+              setLoader(false)
+              setPassword('')
+             setUsername('')
+             res?.success && navigate('/')
             }
 
     return (
@@ -58,10 +65,12 @@ const SignupPage = () => {
 
             <button
               type="submit"
-              className="w-full bg-slate-800 
-              text-white py-3 rounded-lg hover:bg-slate-700 transition-colors font-medium shadow-lg hover:shadow-xl
+             className={loader ? `w-full bg-slate-400 
+              text-white py-3 rounded-l transition-colors font-medium shadow-lg hover:shadow-xl
+              cursor-pointer` : `w-full bg-slate-800 
+              text-white py-3 rounded-lg hover:bg-slate-400 transition-colors font-medium shadow-lg hover:shadow-xl
               cursor-pointer
-              "
+              `  } disabled = {loader ? true : false}
             >
               Register
             </button>

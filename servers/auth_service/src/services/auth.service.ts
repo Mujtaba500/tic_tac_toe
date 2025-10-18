@@ -57,7 +57,7 @@ export class AuthService extends HelperClass.helper {
 
       const dataToSend = { id: newUser.id, user_name: newUser.user_name , jwt_token: jwtToken}
 
-      return this.sendServerResponse(true, statusCodes.OK, res, null, dataToSend );
+      return this.sendServerResponse(true, statusCodes.OK, res, 'Sign up successful', dataToSend );
 
   }
 

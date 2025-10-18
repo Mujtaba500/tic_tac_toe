@@ -1,5 +1,4 @@
-import toast from "react-hot-toast"
-import { sendHttpRequest } from "../helpers"
+import { displayToastMessage, sendHttpRequest } from "../helpers"
 
 
 class AuthService  {
@@ -7,21 +6,40 @@ class AuthService  {
         
     }
 
+    async verifyUser () {
+        try {
+            return await sendHttpRequest('get', '/auth/verifyUser')
+        } catch (error) {
+            displayToastMessage(error.response.data.message, true)
+            return error
+        }
+    }
+
     async login (username, password) {
         try {
         const body = {username, password}
         const response = await sendHttpRequest('post', '/auth/login', body)
-        localStorage.setItem('jwt_token', response.data.jwt_token)
+        localStorage.setItem('jwt_token', response?.data?.data?.jwt_token)
+        displayToastMessage(response.data.message)
         return response.data
         } catch (error) {
-            console.log(error)
-            toast.error(error.response.data.message)
+            displayToastMessage(error.response.data.message, true)
+            return error
         }
 
     }
 
-    register (username, password) {
-        console.log(username, password)
+    async register (username, password) {
+         try {
+        const body = {username, password}
+        const response = await sendHttpRequest('post', '/auth/signup', body)
+        localStorage.setItem('jwt_token', response?.data?.data?.jwt_token)
+        displayToastMessage(response.data.message)
+        return response.data
+        } catch (error) {
+            displayToastMessage(error.response.data.message, true)
+            return error
+        }
     }
 }
 
