@@ -32,6 +32,7 @@ WORKDIR /home/node/app
 
 # Copy dependency information and install production-only dependencies
 COPY --chown=node:node package.json pnpm-lock.yaml ./
+COPY --chown=node:node logs ./logs
 RUN pnpm install --frozen-lockfile --production
 
 # Copy results from previous stage

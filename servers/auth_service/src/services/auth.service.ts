@@ -80,7 +80,7 @@ export class AuthService extends HelperClass.helper {
     return this.sendServerResponse(true, statusCodes.OK, res, null, decoded );
 
 
-  } catch (err) {
+  } catch (err: ANY) {
 
     console.log("Error while verifying token", err.message);
 

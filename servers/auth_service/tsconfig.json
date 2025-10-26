@@ -4,9 +4,10 @@
 //     "outDir": "dist",
 //     "noEmitOnError": true,
 //     "noImplicitAny": true,
-//     "module": "commonjs",
+//     "module": "node16",
 //     "noUncheckedIndexedAccess": true,
-//     "strict": true
+//     "esModuleInterop": true,
+//     // "strict": true
 //   },
 //   "include": ["src/**/*"],
 //   "exclude": ["node_modules"]

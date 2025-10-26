@@ -1,0 +1,21 @@
+version: '3.8'
+services:
+  postgres: 
+    image: a405b6c76ce4
+    container_name: ttoe_db
+    ports:
+      - "5432:5432"
+
+  auth_service:
+    image: auth_service
+    container_name: auth_service
+    depends_on:
+      - postgres
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_USERNAME: ${DATABASE_USERNAME}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      DATABASE_HOST: ${DATABASE_HOST}
+      JWT_SECRET: ${JWT_SECRET}
+      PORT: 3000

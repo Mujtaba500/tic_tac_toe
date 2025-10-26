@@ -17,7 +17,7 @@ export interface BaseRepositoryI<T> {
 }
 
 export abstract class BaseRepository<T> implements BaseRepositoryI<T> {
-  public constructor(private readonly model: any) {}
+  public constructor(private readonly model: ANY) {}
 
   public async executeRawQuery<K>(sql: ANY): Promise<K | ANY> {
     return this.model.sequelize.query(sql);

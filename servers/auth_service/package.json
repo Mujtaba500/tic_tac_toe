@@ -4,13 +4,13 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && cp -r src/database dist",
     "dev": "FORCE_COLOR=1 tsx watch src/app.ts",
     "ts:dev": "tsc --watch --noEmit",
     "lint": "eslint --fix --ext .ts .",
     "start": "node dist/app.js | tee -a logs/info.log",
     "audit": "snyk test",
-    "db:migrate": "cd src/database && npx sequelize-cli db:migrate",
+    "db:migrate": "node dist/database/migrations",
     "db:migrate-revert": "cd src/database && npx sequelize-cli db:migrate:undo"
   },
   "keywords": [],
@@ -36,7 +36,7 @@
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
-    "chalk": "^5.6.0",
+    "chalk": "^4.1.2",
     "cors": "^2.8.5",
     "dotenv": "^17.2.1",
     "express": "^5.1.0",

@@ -5,7 +5,7 @@ export class helper {
     success: boolean,
     statusCode: number,
     res: ANY,
-    message?: string,
+    message?: string | null,
     data?: ANY,
     errorMessge? : string
   ) => {
