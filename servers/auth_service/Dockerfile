@@ -38,7 +38,7 @@ RUN pnpm install --frozen-lockfile --production
 # Copy results from previous stage
 COPY --chown=node:node --from=build /home/node/app/dist ./dist
 
-CMD [ "pnpm", "start" ]
+CMD ["sh", "-c", "pnpm db:migrate && pnpm start"]
 
 
 
