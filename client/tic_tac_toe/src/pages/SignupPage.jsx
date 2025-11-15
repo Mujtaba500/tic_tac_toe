@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Link, Navigate, useNavigate } from "react-router-dom"
 import authService from "../services/authService";
 
@@ -8,6 +8,12 @@ const SignupPage = () => {
         const [password, setPassword] = useState('');
         const [loader, setLoader] = useState(false)
         const navigate = useNavigate();
+
+            useEffect(() => {
+              if (localStorage.getItem('jwt_token')){
+                navigate('/')
+              }
+            }, [])
 
          const handleSubmit = async (e) => {
                 e.preventDefault()

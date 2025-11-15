@@ -34,6 +34,9 @@ function App() {
       <Route path="/register" element={<SignupPage />}/>
       <Route path="/game" element={<GamePage />}/>
       <Route path="/profile" element={<ProfilePage />}/>
+
+          {/* Catch-all route for 404 */}
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
       <Toaster />
     </>

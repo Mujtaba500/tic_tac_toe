@@ -7,7 +7,7 @@ let baseURL;
 if (stage === "production") {
   baseURL = `http://${import.meta.env.VITE_BACKEND_URL}/api/v1`;
 } else if (stage === "development") {
-  baseURL = "http://localhost:3000/api/v1";
+  baseURL = "http://localhost:3001/api/v1";
 }
 
 const axiosInstance = axios.create({
