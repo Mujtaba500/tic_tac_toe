@@ -18,6 +18,7 @@ export const dbInstance = new Sequelize(dbName, dbUserName, dbPassword, {
 
 export const authenticateDBConnection = async () => {
   try {
+    logger.info(`DATABASE NAME: ${dbName}`)
     await dbInstance.authenticate();
     logger.info(
       chalk.green('✓') +
